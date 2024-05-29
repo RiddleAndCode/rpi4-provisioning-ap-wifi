@@ -1,31 +1,34 @@
 const fs = require('fs');
 const os_cmd = require('child_process');
 
-const  fpath_wpa_supplicant = "/etc/wpa_supplicant/wpa_supplicant.conf";
-//const fpath_wpa_supplicant = "/Users/duonghuynhbao/Documents/idlogiqCompany/wpa_supplicant.conf";
-function update_wpa_supplicant(ssid, pass) {
-  let network = `
+function update_nm_connection(ssid, pass) {
+  return new Promise((resolved, reject) => {
 
-  network={
-    ssid="${ssid}"
-    psk="${pass}"
-  }
-  `
-  fs.appendFileSync(fpath_wpa_supplicant, network, 'utf8');
+    let cmd = `sudo /usr/bin/nmcli dev wifi connect ${ssid} password "${pass}"`;
+    console.log(cmd);
+    os_cmd.exec(cmd, function (error, stdout, stderr) {
+      if (error) {
+        reject(stderr);
+      } else {
+        resolved(stdout);
+      }
+    });
+  })
 }
 
-function factory_wpa_supplicant(ssid = 'SSID_wifi', pass = 'qwertyuiop') {
-  let network = `
-  ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-  update_config=1
-  country=US
+function factory_nm_connection() {
+  return new Promise((resolved, reject) => {
 
-  network={
-    ssid="${ssid}"
-    psk="${pass}"
-  }
-  `
-  fs.writeFileSync(fpath_wpa_supplicant, network, 'utf8');
+    let cmd = `for i in $(/usr/bin/nmcli con|/usr/bin/grep wifi|/usr/bin/awk '{print $1}'); do sudo /usr/bin/nmcli con delete $i; done`;
+    console.log(cmd);
+    os_cmd.exec(cmd, function (error, stdout, stderr) {
+      if (error) {
+        reject(stderr);
+      } else {
+        resolved(stdout);
+      }
+    });
+  })
 }
 
 function software_reboot() {
@@ -59,7 +62,7 @@ function scan_wifi() {
 }
 
 
-module.exports.update_wpa_supplicant = update_wpa_supplicant;
-module.exports.factory_wpa_supplicant = factory_wpa_supplicant;
+module.exports.update_nm_connection = update_nm_connection;
+module.exports.factory_nm_connection = factory_nm_connection;
 module.exports.software_reboot = software_reboot;
 module.exports.scan_wifi = scan_wifi;
