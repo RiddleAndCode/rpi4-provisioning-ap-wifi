@@ -50,8 +50,9 @@ app.post('/wifi_credential', function (req, res) {
 
 app.post('/wifi_factory_reset', function (req, res) {
 
-    factory_wpa_supplicant();
-    res.status(200).send({ "status": "OK" });
+    factory_nm_connection();
+    res.status(200).send({ "status": "OK and Reboot" });
+    software_reboot();
 
 });
 app.post('/scan_wifi', function (req, res) {
