@@ -61,7 +61,6 @@
 
 ```sh
 cd SoftAP
-chmod +x  setup.sh 
 sudo ./setup.sh 
 ```
 
