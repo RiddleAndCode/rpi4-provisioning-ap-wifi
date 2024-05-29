@@ -44,9 +44,6 @@ sudo chmod +x "$setup_path/bin/start_ap_fork.sh"
 sudo cp -f ./config_ap/autohotspot.service /etc/systemd/system/autohotspot.service
 sudo cp -f ./config_ap/autohotspot.service /etc/systemd/system/autohotspot.service
 
-#default wifi client configuration
-sudo cp -f ./config_ap/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
-
 echo "------->4. Enable  service"
 
 sudo systemctl enable autohotspot.service

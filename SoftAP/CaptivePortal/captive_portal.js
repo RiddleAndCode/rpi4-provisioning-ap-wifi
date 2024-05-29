@@ -1,4 +1,4 @@
-const { update_wpa_supplicant, factory_wpa_supplicant, software_reboot, scan_wifi } = require('./utils');
+const { update_nm_connection, factory_nm_connection, software_reboot, scan_wifi } = require('./utils');
 const http_port = 80;
 const dev_usrname = "admin";
 const dev_password = "admin@123";
@@ -34,7 +34,7 @@ app.post('/wifi_credential', function (req, res) {
 
   if ((ssid !== undefined) && (password !== undefined)) {
     if (password.length > 6) {
-      update_wpa_supplicant(ssid, password);
+      update_nm_connection(ssid, password);
 
       res.status(200).send({ "status": "OK and Reboot" });
       software_reboot();
@@ -50,8 +50,9 @@ app.post('/wifi_credential', function (req, res) {
 
 app.post('/wifi_factory_reset', function (req, res) {
 
-    factory_wpa_supplicant();
-    res.status(200).send({ "status": "OK" });
+    factory_nm_connection();
+    res.status(200).send({ "status": "OK and Reboot" });
+    software_reboot();
 
 });
 app.post('/scan_wifi', function (req, res) {

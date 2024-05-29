@@ -15,9 +15,9 @@
 
     ```
     sudo raspi-config
-    #------>4. Location Options
-    #-------------->I4 Change Wi-fi Country
-    #---------------------> US United States
+    #------>5 Localisation Options
+    #-------------->L4 WLAN Country
+    #---------------------> AT Austria
     ```
     
 * Libs and software packages
@@ -25,7 +25,7 @@
     ```sh
     sudo apt-get update
     sudo apt-get upgrade
-    sudo apt-get install -y python curl git  build-essential tmux  nano hostapd dnsmasq
+    sudo apt-get install -y python3 curl git build-essential tmux nano hostapd dnsmasq
 
     # don't  let it done  auto
     # stop  current running instance
@@ -36,17 +36,19 @@
     sudo systemctl stop hostapd
     sudo systemctl unmask hostapd
     sudo systemctl disable hostapd
+
+    sudo reboot
     ```
 
 * NodeJS v12:
 
     ```sh
     # install nvm  and nodejs
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
     
     source ~/.bashrc
     
-    nvm install v12
+    nvm install v20
     # The  sudo only recognize the PATH  in secure_path in file in /etc/sudoers
     # To see more details : run cmd :  
     # sudo visudo
@@ -61,7 +63,6 @@
 
 ```sh
 cd SoftAP
-chmod +x  setup.sh 
 sudo ./setup.sh 
 ```
 
